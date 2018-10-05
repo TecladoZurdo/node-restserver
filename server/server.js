@@ -16,7 +16,7 @@ app.use( require('./routes/usuario'));
 
   mongoose.connect(process.env.urlBD,{useNewUrlParser:true}, (error, res) =>{
     if (error) {
-        throw err;
+        throw error;
     } 
 
     console.log("Base de datos ONLINE");
