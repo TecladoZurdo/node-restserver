@@ -5,6 +5,10 @@ const app = express();
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
 
+app.get('/check', function (req, res){
+    res.json("Funcionando");
+});
+
 app.get('/usuario', function (req, res) {
     
     let desde = req.query.desde || 0;
