@@ -41,3 +41,9 @@ process.env.CADUCIDAD_TOKEN= "8h";
 // semilla
 //======================
 process.env.SEED = process.env.SEED || 'este-es-el-jwt-desarrollo';
+
+
+//======================
+// Google client_id
+//======================
+process.env.CLIENT_ID = process.env.CLIENT_ID || '160575302620-mnhapqbc52m9dn5mjrdtv82l26qc5aqe.apps.googleusercontent.com';
