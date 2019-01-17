@@ -31,19 +31,88 @@ app.get('/productos/:id', (req,resp)=>{
 //==============================
 // Crear un nuevo producto
 //==============================
-app.post('/productos', (req,resp)=>{
-    //grabar el usuario
-    // grabar una categoria del listado
+app.post('/producto', verificaToken, (req,resp)=>{
+    
+  let body = req.body;
+
+ 
+
+  let producto = new Producto({
+      nombre: body.nombre,
+      precioUni: body.precioUni,
+      descripcion: body.descripcion,
+      categoria: body.categoria,
+      usuario: req.usuario._id
+  });
   
+  producto.save ( (err, productoDB )=>{
+      if (err) {
+        return resp.status(500).json({
+          ok:false,
+          err
+        });
+      }
+      if (!productoDB) {
+        return resp.status(400).json({
+          ok:false,
+          err
+        });
+      }
+      resp.json({
+        ok:true,
+        producto: productoDB
+      });
+  });
+
   });
 
 
 //==============================
 // Actualizar un producto
 //==============================
-app.put('/productos/:id', (req,resp)=>{
-    //grabar el usuario
-    // grabar una categoria del listado
+app.put('/producto/:id',[verificaToken], (req,resp)=>{
+    
+  let id = req.params.id;
+  let body = req.body;
+
+  Producto.findById(id, (err, productoDB)=>{
+      if(err) {
+        return resp.status(500).json({
+          ok:false,
+          err
+        });
+      }
+
+      if(!productoDB){
+        return resp.status(400).json({
+          ok:false,
+          err: {
+            message:'El ID no existe'
+          }
+        });
+      }
+
+      productoDB.nombre = body.nombre;
+      productoDB.descripcion = body.descripcion;
+      productoDB.precioUni = body.precioUni;
+      productoDB.categoria = body.categoria;
+      productoDB.disponible = body.disponible;
+
+      productoDB.save( (err,productoGuardado)=>{
+        if(err) {
+          return resp.status(500).json({
+            ok:false,
+            err
+          });
+        }
+
+        resp.json({
+          ok:true,
+          producto: productoGuardado
+        });
+      });
+
+  });
   
   });
 
